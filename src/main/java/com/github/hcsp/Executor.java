@@ -55,7 +55,8 @@ public class Executor {
                         consumer.accept(future.get());
                     } catch (Exception e) {
                         exceptionInConsumerThread.set(e);
-                        break;
+                        //由于队列阻塞导致线程死锁问题的发生.在消费过程中,若出现异常,不再进行消费终止,而是继续消费,避免队列阻塞.
+//                        break;
                     }
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
